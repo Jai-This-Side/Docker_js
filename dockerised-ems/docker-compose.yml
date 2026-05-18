@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+
+  backend:
+    build: .
+    container_name: ems_backend
+
+    ports:
+      - "5000:5000"
+
+    depends_on:
+      - mongo
+
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/emsdb
+
+    networks:
+      - JIIT
+
+    volumes:
+      - FileserverN:/app/data
+
+
+  mongo:
+    image: mongo
+
+    container_name: ems_mongodb
+
+    ports:
+      - "27017:27017"
+
+    networks:
+      - JIIT
+
+    volumes:
+      - mongo_data:/data/db
+
+
+networks:
+  JIIT:
+
+
+volumes:
+  mongo_data:
+  FileserverN:
